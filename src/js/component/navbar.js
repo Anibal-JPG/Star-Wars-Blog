@@ -1,29 +1,50 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useContext } from "react";
+import { Context } from "../store/appContext.js";
+import "../../styles/nav.css"
+import "../../styles/global.css"
+
+
+
 
 
 export const Navbar = () => {
+	
+	const {store, actions} = useContext(Context)
+
 	return (
-		<nav className="navbar navbar-light  mb-3">
-			<Link to="/">
-				<div className="p-3"><img className="" src="https://logowik.com/content/uploads/images/528_star_wars.jpg" width = "100px" height = "70px"/></div>
-			</Link>
-			<div className="ml-auto">
-				<Link to="/demo">
-				<div className="btn-group p-3">
-				  	<button type="button" className="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-				  	  Favorites
-				  	</button>
-				  	<ul style={{marginLeft: "-40px"}} className="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-				  	  <li><a className="dropdown-item" href="#">Menu item</a></li>
-				  	  <li><a className="dropdown-item" href="#">Menu item</a></li>
-				  	  <li><a className="dropdown-item" href="#">Menu item</a></li>
-				  	</ul>
-				</div>
+		<div className="container">
+			<nav className="navbar navbarStyle mb-3">
+				<Link to="/">
+					<span className="navbar-brand mb-0 h1"> <img src="https://cdn.worldvectorlogo.com/logos/star-wars-2.svg" style={{ width: '100px', height: '10px,' }} />  </span>
 				</Link>
+				<div className="ml-auto">
+				<div className="dropdown d-flex justify-content-center">
+					<button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						Favorites: <span style={{color: 'white', border: '2px'}}>{store.favorites.length}</span>
+					</button>
+					
+					<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						{store.favorites.length === 0 && <li key={0}><div className="dropdown-item">No favorites</div></li>}
+						{
+						store.favorites.map((item) => {
+							return (
+								<li key={item.uid} className="d-flex justify-content-between" style={{width:"250px"}}>
+									<span className="dropdown-item">{item.properties.name}</span>
+									<span className="dropdown-item" onClick={() => actions.deleteFavorite(item.uid)}>🗑️</span>
+								</li>
+							)
+						})
+						}
+					</ul>
+				</div>
 			</div>
 		</nav>
+     </div>
+
+
+
 	);
+
 };

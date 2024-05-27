@@ -1,0 +1,9 @@
+.carrusel {
+    overflow-x: scroll;
+    display: flex;
+    border-radius: 30px;
+}
+
+body{
+    background: #000000;;
+}
